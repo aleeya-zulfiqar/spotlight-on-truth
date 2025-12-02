@@ -28,8 +28,12 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// test router
-app.use('/api/ping', (req, res) => res.json({ pong: true }));
+// Mount routers
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/regions', require('./routes/regions'));
+app.use('/api/articles', require('./routes/articles'));
+
+app.use('/api/ping', (req, res) => res.json({ pong: true })); // test router
 
 // 404 handler
 app.use((req, res, next) => {
@@ -37,10 +41,7 @@ app.use((req, res, next) => {
 });
 
 // Error handler
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.status || 500).json({ error: err.message || 'Server Error' });
-});
+app.use(require('./middleware/errorHandler'));
 
 // Start server (local dev)
 const PORT = process.env.PORT || 3001;
