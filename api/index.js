@@ -1,4 +1,5 @@
 require('dotenv').config();
+const serverless = require('serverless-http');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -44,7 +45,9 @@ app.use((req, res, next) => {
 app.use(require('./middleware/errorHandler'));
 
 // Start server (local dev)
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`API server running on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 3001;
+// app.listen(PORT, () => {
+  // console.log(`API server running on port ${PORT}`);
+// });
+
+module.exports = serverless(app);
